@@ -1,0 +1,37 @@
+#include<stdio.h>
+
+void StateCheck(int max[5][3],int alloc[5][3],int avail[3])
+{
+	int i,j,k;
+	int total[3];
+	for(i=0;i<3;i++)
+	{
+		total[i]=avail[i];
+	}
+	
+	for(i=0;i<5;i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			total[j]=total[j]+alloc[i][j];
+		}
+	}
+	
+	for(i=0;i<5;i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			if(max[i][j]>total[j])
+			{
+				printf("System is not in safe state, it is in deadlock state.\n");
+			}
+		}
+	}
+}
+int main()
+{
+	int available[3]={3,3,2};
+	int max[5][3]={{7,5,3},{3,2,2},{9,0,2},{2,2,2},{4,3,3}};
+	int allocated[5][3]={{0,1,0},{2,0,0},{3,0,2},{2,1,1},{0,0,2}};
+	StateCheck(max,allocated,available);
+}
