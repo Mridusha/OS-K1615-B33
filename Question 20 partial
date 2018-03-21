@@ -1,0 +1,38 @@
+#include<stdio.h>
+
+int main()
+{
+	int q;
+	int p;
+	int i;
+	printf("Enter the number of Processes: ");
+	scanf("%d",&q);
+	printf("Enter the number of Resources: ");
+	scanf("%d",&p);
+
+	int available=p;
+
+	int max[q],max_total=0;
+	printf("Enter the maximum requirement of each Process: \n");
+	for(i=0;i<q;i++)
+	{
+		printf("Maximum requirement of Process %d: ",i+1);
+		scanf("%d",&max[i]);
+		if(max[i]>p)
+	    {
+			printf("Maximum requirement cannot be greater than total number of resources.\n Enter requirement again: ");
+		    scanf("%d",&max[i]);
+
+	    }
+	    max_total=max_total+max[i];
+	}
+		if(max_total>=p+q)
+		{
+            printf("Conditions are not satisfying for safe state. \n It is in unsafe state.);
+			return 0;
+		}
+		else
+		{
+			printf("The System is in a safe state\n");
+		}
+}
