@@ -1,0 +1,94 @@
+#include<stdio.h>
+
+void StateCheck(int max[5][3],int alloc[5][3],int avail[3])
+{
+	int i,j,k;
+	int total[3];
+	for(i=0;i<3;i++)
+	{
+		total[i]=avail[i];
+	}
+	
+	for(i=0;i<5;i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			total[j]=total[j]+alloc[i][j];
+		}
+	}
+	
+	for(i=0;i<5;i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			if(max[i][j]>total[j])
+			{
+				printf("System is not in safe state, it is in deadlock state.\n");
+			}
+		}
+	}
+
+	
+	int current[3];
+	for(i=0;i<3;i++)
+	{
+		current[i]=avail[i];
+	}
+
+	int need[5][3];
+	for(i=0;i<5;i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			need[i][j]=max[i][j]-alloc[i][j];
+		}
+	}
+
+    int safe_sequence[5];
+	int process_count=0;
+	int executed[5]={0};
+	do
+	{
+	 for(i=0;i<5;i++)
+	 {
+		if(executed[i]==0)
+		{
+			for(j=0;j<3;j++)
+			{
+				if(need[i][j]<=current[j])
+		           continue;
+				else break;
+			}
+
+			if(j==3)
+			{
+				for(k=0;k<3;k++)
+				{
+					current[k]=current[k]+alloc[i][k];
+				}
+
+			safe_sequence[process_count]=i;
+			process_count++;
+			executed[i]=1;
+
+			}
+		}
+	 }
+
+	}while(process_count!=5);
+
+	printf("The System is in a safe state\n");
+	printf("Safe sequence is: ");
+	for(i=0;i<5;i++)
+	{
+		printf("P%d\t",safe_sequence[i]);
+	}
+}
+
+int main()
+{
+	int available[3]={3,3,2};
+	int max[5][3]={{7,5,3},{3,2,2},{9,0,2},{2,2,2},{4,3,3}};
+	int allocated[5][3]={{0,1,0},{2,0,0},{3,0,2},{2,1,1},{0,0,2}};
+	StateCheck(max,allocated,available);
+}
